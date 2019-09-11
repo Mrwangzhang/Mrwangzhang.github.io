@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>cookie与session的区别 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">cookie与session的区别</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 29, 2018&nbsp;&nbsp;14:05:58</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><font color="red" size="7">cookie和session</font></p>
+<ol>
+<li><font color="redsa" size="5">cookie</font><ol>
+<li><font color="reds" size="4">cookie的使用方法</font><ol>
+<li><font color="Fuchsia" size="3">设置cookie</font><ul>
+<li>from django.shortcuts import render,HttpResponse<pre><code>def set_cookie(request):</code></pre><font size="3">        在HTTPResponse部分设置COOKIE值</font><pre><code>cookie_reponse = HttpResponse(&apos;这是一个关于cookie的测试&apos;)
+cookie_reponse.set_cookie(&apos;test&apos;,&apos;hello cookie&apos;)
+return cookie_reponse</code></pre></li>
+</ul>
+</li>
+<li><font color="Fuchsia" size="3">获取cookie</font><ul>
+<li>def get_cookie(request):<br><font size="3">    获取cookie值，从request属性中的COOKIE属性中</font><pre><code>cookie_data = request.COOKIES.get(&apos;test&apos;)
+return HttpResponse(&apos;Cookie值为:%s&apos; % cookie_data)</code></pre></li>
+</ul>
+</li>
+<li><font color="Fuchsia" size="3">删除cookie</font><ul>
+<li>def delete_cookie(request):<br>response = HttpResponseRedirect(‘/check_cookie/‘)<pre><code>response.delete_cookie(&apos;test&apos;)
+return response</code></pre></li>
+</ul>
+</li>
+<li><font color="Fuchsia" size="3">怎么防止修改cookie</font><ul>
+<li>使用set_signed_cookie这个函数进行防止用户在客户端进行修改(并不是直接给cookie加密)</li>
+<li><font color="LightSalmon" size="3">代码：</font><ul>
+<li>def check_salt_cookie(request):<br>try:<pre><code>     salt_cookie = request.get_signed_cookie(key=&apos;salt_cookie&apos;,salt=&apos;nice&apos;)
+ except KeyError: #获取不到该key值的Cookie
+     response = HttpResponse(&apos;正在设置一个salt Cookie值&apos;)
+     response.set_signed_cookie(key=&apos;salt_cookie&apos;,salt=&apos;nice&apos;,value=&apos;salt_cookie&apos;)
+    return response
+else: #获取到了对应key值，展示到新的HttpResonse中
+    return HttpResponse(&apos;获取到的salt Cookie值:%s&apos; % salt_cookie)</code></pre></li>
+<li><font color="lightred" size="3">注意：</font><ul>
+<li>因为第一次访问时没有添加cookie值所以就会有keyerror的错误</li>
+<li>当有了这个错误你就设置cookie就可以了</li>
+<li>当你刷新页面的时候已经有了cookie值所以直接获取加盐的cookie</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><font color="redsa" size="5">session</font><ol>
+<li><font color="reds" size="4">session的使用方法</font><ol>
+<li><font color="Fuchsia" size="3">使用流程</font><ul>
+<li>客户端访问服务端，服务端为每一个客户端返回一个唯一的 sessionid ，比如 xxx 。</li>
+<li>客户端需要保持某些状态，比如维持登陆。那么服务端会构造一个 {sessionid: xxx } 类似这样的字典数据加到 Cookie 中发送给用户。注意此时，只是一个随机字符串，返回给客户端的内容并不会像之前一样包含实际数据。</li>
+<li>服务端在后台把返回给客户端的 xxx 字符串作为 key 值，对应需要保存的服务端数据为一个新的字典，存储在<br>服务器上，例如： {xxx : {id:1}}</li>
+<li><font color="lightred" size="3">注意：</font><ol>
+<li>默认存储在数据库的 Session 数据，是通过 base64 编码的，我们可以通过 Python 的<br>base64 模块下的 b64decode() 解码得到原始数据</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><font color="Fuchsia" size="3">获取需要的session</font><ul>
+<li>session_data = request.session.get(Key)</li>
+<li>session_data = request.session[Key]</li>
+<li><font color="lightred" size="3">注意：</font><ol>
+<li>在 Session 中获取对应值， get 方法获取时，如不存在该 Key 值，不会引发异常，返回 None<br>而第二种直接通过字典获取，如 Key 值不存在，引发 KeyErro</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><font color="Fuchsia" size="3">删除session</font><ul>
+<li>del request.seesion[Key]<ol>
+<li>删除对应session， Key 值不存在时，引发 KeyError</li>
+</ol>
+</li>
+<li>request.session.clear()<ol>
+<li>清空 Session 中的所有数据。这里客户端还会保留 sessionid<br>只不过在服务端 sessionid 对应的数据没有了。</li>
+</ol>
+</li>
+<li>request.session.flush()<ol>
+<li>直接删除当前客户端的的Seesion数据。这里不光服务端sessionid对应的数据没有了，客户端的<br>sessionid也会被删除</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li><font color="LightCoral" size="3">代码：</font><ul>
+<li>def delete_session(request):<br>if request.session.get(‘test_id’):<pre><code>    del request.session[&apos;test_id&apos;]
+    return HttpResponse(&apos;Session被删了&apos;)
+else:
+    return HttpResponse(&apos;目前没有任何需要删除的session&apos;)</code></pre></li>
+<li><font color="lightred" size="3">注意：</font><ul>
+<li>这里使用 del request.session[Key] 的方式来进行 Session 的删除</li>
+<li>如果存在对应 test_id 的 Session 值则删除，反之返回一个字符串</li>
+</ul>
+</li>
+<li><font color="lightred" size="3">总结：</font><ol>
+<li>使用的是 del 的针对性删除方式，这样不会将整个客户端的 session 删除掉</li>
+<li>使用 request.session.clear() ，只是清空了服务端 Session 中的数据，但是客户端的 Cookie 中还会保存sessionid ，只不过这个值对应的字符串所对应的用户数据是一个空</li>
+<li>使用 request.session.flush() ，那么客户端 Cookie 中保存的 sessionid 首先会被删除，其次通过<br>sessionid 值保存的用户数据也会被全部删除。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><font color="Fuchsia" size="3">如何设置有效期设置cookie</font><ol>
+<li><font color="LightCoral" size="4">设置Session的有效时间</font><ul>
+<li>value ：有效时间</li>
+<li>为整数时：将在value为秒单位之后过期</li>
+<li>为0时：将在用户关闭浏览器之后过期。</li>
+<li>为None时：使用全局过期的设置，默认为两个星期，14天。</li>
+<li>为datetime时：在这个指定时间后过期。</li>
+</ul>
+</li>
+<li><font color="LightCoral" size="4">返回距离过期还剩下的秒数</font><ul>
+<li><font color="LightCoral" size="3">代码：</font><ol>
+<li>request.session.get_expiry_age()</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><font color="LightCoral" size="4">清除过期的 Session 会话</font><ul>
+<li><font color="LightCoral" size="3">代码：</font><ol>
+<li>request.session.clear_expired()</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><font color="LightCoral" size="4">代码展示：</font><ul>
+<li>from django.shortcuts import render,HttpResponse<br>import datetime<br>def set_session(request):<pre><code>if request.session.get(&apos;test_id&apos;):
+    session_data = request.session.get(&apos;test_id&apos;)# 用户拿到的的session随机字符串
+    session_key = request.session.session_key # 获取客户端浏览器中的SessionID值
+    session_expire = request.session.get_expiry_age()
+    now = datetime.datetime.now()
+    expire_time = now + datetime.timedelta(seconds=session_expire)
+    response = &apos;&lt;div&gt;SessionID : %s&lt;/div&gt;&apos; % session_key + \
+               &apos;&lt;div&gt;Session : %s&lt;/div&gt;&apos; % session_data + \
+               &apos;&lt;div&gt;ExpireTime : %s&lt;/div&gt;&apos; % expire_time
+    return HttpResponse(response)
+else:
+    request.session[&apos;test_id&apos;] = &apos;TEST&apos;
+    request.session.set_expiry(None)
+    return HttpResponse(&apos;已设置好Session&apos;)</code></pre></li>
+<li><font color="lightred" size="3">注意：</font><ol>
+<li>用户在第一次访问时，会走 else 分支</li>
+<li>因为此时还没有任何服务端的 Session 及客户端的 Cookie 值设定</li>
+<li>所以我们通过 request.session[Key] 的方式来设置一个 Session 值，值为 TEST</li>
+<li>当用户第二次访问时将展示出所设置好的Session值及在客户端浏览器中存储的sessionid</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2018/07/29/cookie与session的区别/">http://yoursite.com/2018/07/29/cookie与session的区别/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/07/30/myfirst/">myfirst</a>
+            
+            
+            <a class="next" rel="next" href="/2017/12/08/微信开发原理/">微信开发原理</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

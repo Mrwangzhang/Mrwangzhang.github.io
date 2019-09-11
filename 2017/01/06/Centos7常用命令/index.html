@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Centos7常用命令 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Centos7常用命令</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 6, 2017&nbsp;&nbsp;9:21:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/linux/">linux</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <pre><code>centos常用命令：
+
+查看所有运行的单元：systemctl list-units
+
+查看所有单元：systemctl list-units --all
+
+查看所有启动的服务：systemctl list-units --type=service 对应以前的chkconfig --list
+
+查看是否启用，例如防火墙：systemctl is-enabled firewalld.service
+
+查看是否运行，例如防火墙：ystemctl is-active firewalld.service或者
+systemctl status firewalld.service
+
+停止防火墙：systemctl stop firewalld.service
+
+启动防火墙：systemctl start firewalld.service
+
+重启防火墙：systemctl restart firewalld.service
+
+重载防火墙：systemctl reload firewalld.service
+
+注意：当我们使用systemctl的start，restart，stop和reload命令时，
+我们不会从终端获取到任何输出内容，只有status命令可以打印输出。
+
+
+服务开机自启动：systemctl enable httpd
+
+服务不开机自启动：systemctl disable httpd
+
+使用systemctl命令杀死服务：systemctl kill firewalld.service
+
+
+
+获取当前某个服务的CPU分配额，例如防火墙：systemctl show -p CPUShares firewalld.service
+
+获取某个服务（httpd）的依赖性列表：systemctl list-dependencies httpd.service
+
+
+
+开启防火墙22端口：iptables -I INPUT -p tcp --dport 22 -j ACCEPT
+
+查看主机名： hostnamectl status --static
+
+
+
+查看某个服务的名称：
+
+systemctl list-units |grep XXX</code></pre><p>CentOS7 常用命令集合</p>
+<pre><code>这两天一直在对CentOS 7.2进行初体验，各种学习命令肿么用，不过其实大多和DOS是一样的，只是命令的表达上可能有点儿不一样，毕竟这些都不是一家出来的嘛~
+
+废话不多说，直接上命令和解析！</code></pre><p>常用命令</p>
+<p>文件与目录操作</p>
+<p>  命令                         解析<br>  cd /home                   进入 ‘/home’ 目录<br>  cd ..                      返回上一级目录<br>  cd ../..                   返回上两级目录<br>  cd -                       返回上次所在目录<br>  cp file1 file2             将file1复制为file2<br>  cp -a dir1 dir2            复制一个目录<br>  cp -a /tmp/dir1 .          复制一个目录到当前工作目录（.代表当前目录）<br>  ls                         查看目录中的文件<br>  ls -a                      显示隐藏文件<br>  ls -l                      显示详细信息<br>  ls -lrt                    按时间显示文件（l表示详细列表，r表示反向排序，t表示按时间排序）<br>  pwd                        显示工作路径<br>  mkdir dir1                 创建 ‘dir1’ 目录<br>  mkdir dir1 dir2            同时创建两个目录<br>  mkdir -p /tmp/dir1/dir2    创建一个目录树<br>  mv dir1 dir2               移动/重命名一个目录<br>  rm -f file1                删除 ‘file1’<br>  rm -rf dir1                删除 ‘dir1’ 目录及其子目录内容              </p>
+<p>查看文件内容</p>
+<p>  命令               解析<br>  cat file1        从第一个字节开始正向查看文件的内容<br>  head -2 file1    查看一个文件的前两行<br>  more file1       查看一个长文件的内容<br>  tac file1        从最后一行开始反向查看一个文件的内容<br>  tail -3 file1    查看一个文件的最后三行<br>  vi file          打开并浏览文件           </p>
+<p>文本内容处理</p>
+<p>  命令                      解析<br>  grep str /tmp/test      在文件 ‘/tmp/test’ 中查找 “str”<br>  grep ^str /tmp/test     在文件 ‘/tmp/test’ 中查找以 “str” 开始的行<br>  grep [0-9] /tmp/test    查找 ‘/tmp/test’ 文件中所有包含数字的行<br>  grep str -r /tmp/*      在目录 ‘/tmp’ 及其子目录中查找 “str”<br>  diff file1 file2        找出两个文件的不同处<br>  sdiff file1 file2       以对比的方式显示两个文件的不同<br>  vi file                 操作解析i进入编辑文本模式Esc退出编辑文本模式:w保存当前修改:q不保存退出vi:wq保存当前修改并退出vi</p>
+<p>查询操作</p>
+<p>  命令                                          解析<br>  find / -name file1                          从 ‘/’ 开始进入根文件系统查找文件和目录<br>  find / -user user1                          查找属于用户 ‘user1’ 的文件和目录<br>  find /home/user1 -name <em>.bin                在目录 ‘/ home/user1’ 中查找以 ‘.bin’ 结尾的文件<br>  find /usr/bin -type f -atime +100           查找在过去100天内未被使用过的执行文件<br>  find /usr/bin -type f -mtime -10            查找在10天内被创建或者修改过的文件<br>  locate *.ps                                 寻找以 ‘.ps’ 结尾的文件，先运行 ‘updatedb’ 命令<br>  find -name ‘</em>.[ch]’ | xargs grep -E ‘expr’    在当前目录及其子目录所有.c和.h文件中查找 ‘expr’<br>  find -type f -print0 | xargs -r0 grep -F ‘expr’    在当前目录及其子目录的常规文件中查找 ‘expr’<br>  find -maxdepth 1 -type f | xargs grep -F ‘expr’    在当前目录中查找 ‘expr’                     </p>
+<p>压缩、解压</p>
+<p>  命令                                 解析<br>  bzip2 file1                        压缩 file1<br>  bunzip2 file1.bz2                  解压 file1.bz2<br>  gzip file1                         压缩 file1<br>  gzip -9 file1                      最大程度压缩 file1<br>  gunzip file1.gz                    解压 file1.gz<br>  tar -cvf archive.tar file1         把file1打包成 archive.tar（-c: 建立压缩档案；-v: 显示所有过程；-f: 使用档案名字，是必须的，是最后一个参数）<br>  tar -cvf archive.tar file1 dir1    把 file1，dir1 打包成 archive.tar<br>  tar -tf archive.tar                显示一个包中的内容<br>  tar -xvf archive.tar               释放一个包<br>  tar -xvf archive.tar -C /tmp       把压缩包释放到 /tmp目录下<br>  zip file1.zip file1                创建一个zip格式的压缩包<br>  zip -r file1.zip file1 dir1        把文件和目录压缩成一个zip格式的压缩包<br>  unzip file1.zip                    解压一个zip格式的压缩包到当前目录<br>  unzip test.zip -d /tmp/            解压一个zip格式的压缩包到 /tmp 目录                  </p>
+<p>yum安装器</p>
+<p>  命令                                解析<br>  yum -y install [package]          下载并安装一个rpm包<br>  yum localinstall [package.rpm]    安装一个rpm包，使用你自己的软件仓库解决所有依赖关系<br>  yum -y update                     更新当前系统中安装的所有rpm包<br>  yum update [package]              更新一个rpm包<br>  yum remove [package]              删除一个rpm包<br>  yum list                          列出当前系统中安装的所有包<br>  yum search [package]              在rpm仓库中搜寻软件包<br>  yum clean [package]               清除缓存目录（/var/cache/yum）下的软件包<br>  yum clean headers                 删除所有头文件<br>  yum clean all                     删除所有缓存的包和头文件               </p>
+<p>网络相关</p>
+<p>  命令                                          解析<br>  ifconfig eth0                               显示一个以太网卡的配置<br>  ifconfig eth0 192.168.1.1 netmask 255.255.255.0    配置网卡的IP地址<br>  ifdown eth0                                 禁用 ‘eth0’ 网络设备<br>  ifup eth0                                   启用 ‘eth0’ 网络设备<br>  iwconfig eth1                               显示一个无线网卡的配置<br>  iwlist scan                                 显示无线网络<br>  ip addr show                                显示网卡的IP地址     </p>
+<p>系统相关</p>
+<p>  命令                                          解析<br>  su -                                        切换到root权限（与su有区别）<br>  shutdown -h now                             关机<br>  shutdown -r now                             重启<br>  top                                         罗列使用CPU资源最多的linux任务 （输入q退出）<br>  pstree                                      以树状图显示程序<br>  man ping                                    查看参考手册（例如ping 命令）<br>  passwd                                      修改密码<br>  df -h                                       显示磁盘的使用情况<br>  cal -3                                      显示前一个月，当前月以及下一个月的月历<br>  cal 10 1988                                 显示指定月，年的月历<br>  date –date ‘1970-01-01 UTC 1427888888 seconds’    把一相对于1970-01-01 00:00的秒数转换成时间</p>
+<p>XSheel 5相关操作</p>
+<p>窗体快捷键</p>
+<p>  命令                解析<br>  Ctrl + u          删除光标之前到行首的字符<br>  Ctrl + k          删除光标之前到行尾的字符<br>  Ctrl + c          取消当前行输入的命令，相当于Ctrl + Break<br>  Ctrl + a          光标移动到行首（ahead of line），相当于通常的Home键<br>  Ctrl + e          光标移动到行尾（end of line）<br>  Ctrl + f          光标向前（forward）移动一个字符位置<br>  Ctrl + b          光标往回（backward）移动一个字符位置<br>  Ctrl + l          清屏，相当于执行clear命令<br>  Ctrl + r          显示:号提示，根据用户输入查找相关历史命令（reverse-i-search）<br>  Ctrl + w          删除从光标位置前到当前所处单词（word）的开头<br>  Ctrl + t          交换光标位置前的两个字符<br>  Ctrl + y          粘贴最后一次被删除的单词<br>  Ctrl + Alt + d    显示桌面<br>  Alt + b           光标往回（backward）移动到前一个单词<br>  Alt + d           删除从光标位置到当前所处单词的末尾<br>  Alt + F2          运行<br>  Alt + F4          关闭当前窗口<br>  Alt + F9          最小化当前窗口<br>  Alt + F10         最大化当前窗口<br>  Alt + Tab         切换窗口<br>  Alt + 左键          移动窗口（或在最下面的任务栏滚动鼠标滑轮）                  </p>
+<p>操作小技巧</p>
+<pre><code>鼠标中间键：粘贴突出显示的文本。(使用鼠标左键来选择文本。把光标指向想粘贴文本的地方。点击鼠标中间键来粘贴。)
+
+Tab：命令行自动补全。使用 shell 提示时可使用这一方式。键入命令或文件名的前几个字符，然后按 [Tab] 键，它会自动补全命令或显示匹配键入字符的所有命令。
+
+在滚动条的空白处点击鼠标中键：屏幕即滚动到那个地方。
+
+在桌面或文件管理器中直接按 / 就可以输入位置，打开文件管理器。
+
+在 vi 或 Firefox 中直接按 / 即可进入快速搜索状态。
+
+网站链接和图片可直接拖放到桌面或者目录，可以马上下载。
+
+直接将文件管理器中的文件拖到终端中就可以在终端中得到完整的路径名。</code></pre><p>结束语</p>
+<pre><code>其实要学好Linux的操作并不是很困难的事情，在平常的使用过程中，碰到问题，学会去网上寻找答案不失为一个非常好的手段！谢谢大家！</code></pre>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2017/01/06/Centos7常用命令/">http://yoursite.com/2017/01/06/Centos7常用命令/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/01/22/Centos操作命令/">Centos操作命令</a>
+            
+            
+            <a class="next" rel="next" href="/2016/12/06/Django权限验证装饰器/">Django权限验证装饰器</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

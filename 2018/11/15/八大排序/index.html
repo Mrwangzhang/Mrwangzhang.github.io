@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>八大排序 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">八大排序</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">November 15, 2018&nbsp;&nbsp;20:42:35</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>常用的排序方法：冒泡排序、选择排序、插入排序、快速排序、堆排序、归并排序</p>
+<p>冒泡排序(Bubble Sort)：</p>
+<p>　　比较相邻的元素。如果第一个比第二个大（升序），就交换他们两个。<br>　　对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。<br>　　针对所有的元素重复以上的步骤,除了最后一个。<br>　　持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较</p>
+<p>复制代码<br>def bubble_sort(alist):<br>    n = len(alist)<br>    for i in range(n-1):<br>        for j in range(n-1-i):<br>            if alist[j] &gt; alist[j+1]:<br>                alist[j],alist[j+1] = alist[j+1],alist[j]<br>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    alist = [1,2,4,9,5,6,8]<br>    bubble_sort(alist)<br>    print(alist)<br>最优时间复杂度：O(n)<br>最坏时间复杂度：O(n2)</p>
+<p>空间复杂度：o(1)<br>稳定性：稳定</p>
+<p>复制代码
+　　</p>
+<p>选择排序(Selection sort)：</p>
+<p>　　首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置<br>　　然后，再从剩余未排序元素中继续寻找最小（大）元素，<br>　　然后放到已排序序列的末尾。<br>　　以此类推，直到所有元素均排序完毕。</p>
+<p>复制代码<br>def select_sort(alist):<br>    n = len(alist)<br>    for i in range(n-1):<br>        min_index = i<br>        for j in range(i+1,n): # 遍历无序序列<br>            # 判断当前数值是否小于最小值，如果小于，则记录其索引<br>            if alist[j] &lt; alist[min_index]:<br>                min_index = j<br>        # 判断min_index索引是否相同,不相同，做数值交换<br>        if i != min_index:<br>            alist[i],alist[min_index] = alist[min_index],alist[i]</p>
+<p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    alist = [12,34,56,78,90,87,65,43,21]<br>    select_sort(alist)<br>    print(alist)<br>最优时间复杂度：O(n*log2n)<br>最坏时间复杂度：O(n2)</p>
+<p>空间复杂度：O(log2n)~o(n)<br>稳定性：不稳定</p>
+<p>复制代码</p>
+<p>插入排序：</p>
+<p>　　  开始假定列表里下标为0的元素是最小，在后面还未排序的数据里依次选取数据在前面有序区域里做比较并放在正确的位置，就像我们在玩扑克牌的时候依次把扑克牌有顺序的拜访</p>
+<p>复制代码<br>import random<br>def insert_sort(li):<br>    for i in range(1, len(li)):<br>        tmp = li[i]     #tmp是无序区取出的一个数<br>        j = i - 1       #li[j]是有序区最大的那个数<br>        while j &gt;= 0 and li[j] &gt; tmp:<br>         # li[j]是有序区最大的数，tmp是无序区取出的一个数，tmp从有序区最大的那个数开始比<br>         # 小就调换位置，直到找到有序区中值不大于tmp的结束<br>            li[j+1]=li[j]    #将有序区最右边的数向右移一个位置<br>            j = j - 1<br>        li[j + 1] = tmp       #将tmp放到以前有序区最大数的位置，再依次与前一个数比较</p>
+<p>data = list(range(100))<br>random.shuffle(data)        #将有序列表打乱<br>insert_sort(data)<br>print(data)<br>时间复杂度：o(n2)<br>空间复杂度：o(1)<br>稳定性：稳定<br>复制代码</p>
+<p>快速排序：</p>
+<p>　　随机选取一个值，挨个跟后面的数值作比较，比该数值小的将放在左列表中，反之则放在右列表，返回形式为：左列表+[随机值]+右列表，左右列表使用递归的方式继续进行排序。</p>
+<p>复制代码<br>def quick(list):<br>    if len(list) &lt; 2:<br>        return list<br>    tmp = list[0]  # 临时变量 可以取随机值<br>    left = [x for x in list[1:] if x &lt;= tmp]  # 左列表<br>    right = [x for x in list[1:] if x &gt; tmp]  # 右列表<br>    return quick(left) + [tmp] + quick(right)</p>
+<p>li = [4,3,7,5,8,2]<br>print(quick(li))</p>
+<p>时间复杂度：O(nlog₂n)<br>空间复杂度：O(nlog₂n)<br>稳定性：不稳定<br>复制代码</p>
+<p>堆排：</p>
+<p>　　堆总是一棵完全二叉树，构造堆、调整堆</p>
+<p>　　构造堆：每个根节点总是大于等于其子节点，从最小堆依次往上做调整</p>
+<p>　　调整堆：将堆顶最大元素出堆，将最后一个元素放至堆顶，然后用构造堆的方法进行调整，此过程循环往复，将数据从大到小的顺序依次出堆，直至此堆变空。</p>
+<p> 　　时间复杂度：O(nlogn)</p>
+<p>　　空间复杂度：O(1)</p>
+<p>　　稳定性：不稳定</p>
+<p>归并排序：</p>
+<p>　　将列表越分越小，直至分成一个元素，一个元素是有效的，然后将两个有序的列表合并。</p>
+<p>　　时间复杂度：O(nlog₂n)</p>
+<p>　　空间复杂度：O(1)</p>
+<p>　　稳定性：稳定</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2018/11/15/八大排序/">http://yoursite.com/2018/11/15/八大排序/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/12/08/数据库底层原理/">数据库底层原理</a>
+            
+            
+            <a class="next" rel="next" href="/2018/10/23/事务详解/">事务详解</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

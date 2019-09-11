@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Django分组 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Django分组</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">November 29, 2016&nbsp;&nbsp;19:21:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>分组：</p>
+<p>权限有很多，一个模型就有最少三个权限，如果一些用户拥有相同的权限，那么每次都要重复添加。这时候分组就可以帮我们解决这种问题了，我们可以把一些权限归类，然后添加到某个分组中，之后再把和把需要赋予这些权限的用户添加到这个分组中，就比较好管理了。分组我们使用的是django.contrib.auth.models.Group模型， 每个用户组拥有id和name两个字段，该模型在数据库被映射为auth_group数据表。</p>
+<p>分组操作：</p>
+<ol>
+<li><p>Group.object.create(group_name)：创建分组。</p>
+</li>
+<li><p>group.permissions：某个分组上的权限。多对多的关系。</p>
+<ul>
+<li>group.permissions.add：添加权限。</li>
+<li>group.permissions.remove：移除权限。</li>
+<li>group.permissions.clear：清除所有权限。</li>
+<li>user.get_group_permissions()：获取用户所属组的权限。</li>
+</ul>
+</li>
+<li><p>user.groups：某个用户上的所有分组。多对多的关系。</p>
+<p> from django.contrib.auth.models import Group<br> def operate_group(request):</p>
+<pre><code>#创建一个分组
+#组和权限是多对多关系 多个组可以拥有多个权限
+# group = Group.objects.create(name=&apos;运营&apos;)
+# content_type = ContentType.objects.get_for_model(Article)
+# permissions = Permission.objects.filter(content_type=content_type)
+#
+# group.permissions.set(permissions)
+# group.save()
+
+#一个组拥有了权限 一个 用户拥有了组 不就等同于一个用户拥有了权限吗？？
+#给指定用户添加分组，用户和分组是多对多关系一个用户可以拥有多个组
+# 定义user的时候并没有定义group那么 group是哪里来的？？
+# group = Group.objects.get(name=&apos;运营&apos;)
+user = User.objects.get(telephone=&apos;123123&apos;)
+# user.groups.add(group)
+# user.save()
+
+# 获取用户所属组的权限。
+print(user.get_group_permissions())
+
+#user.has_perm:
+# user.has_perms  可以判断多个权限
+
+# def has_perms(self, perm_list, obj=None):
+#     &quot;&quot;&quot;
+#     Return True if the user has each of the specified permissions. If
+#     object is passed, check if the user has all required perms for it.
+#     &quot;&quot;&quot;
+#     return all(self.has_perm(perm, obj) for perm in perm_list)
+
+#1.首先判断user.permissions 下有没有这个权限，如果有：就True
+#2.如果过user.permission下没有这个权限，就会判断所属分组下有没有这个权限如果有则还是True
+return HttpResponse(&apos;操作分组！&apos;)</code></pre><p> ‘’’<br> 判断权限的装饰器也可以判断是否拥有多个权限那就是把权限放在一个列表中<br> ‘’’</p>
+</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2016/11/29/Django分组/">http://yoursite.com/2016/11/29/Django分组/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Django/"># Django</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2016/12/06/Django权限验证装饰器/">Django权限验证装饰器</a>
+            
+            
+            <a class="next" rel="next" href="/2016/10/26/Django用户和权限相关操作/">Django用户和权限相关操作</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

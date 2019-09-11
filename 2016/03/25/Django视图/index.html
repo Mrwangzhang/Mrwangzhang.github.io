@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Django视图 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Django视图</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 25, 2016&nbsp;&nbsp;19:05:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>视图</p>
+<p>一.视图的功能</p>
+<p>请求接受，进行处理，与M和T进行交互，返回应答。</p>
+<p>返回 html 内容 HttpResponse  也可以重定向 redirect</p>
+<p>二.视图函数使用</p>
+<p>1.使用</p>
+<ul>
+<li>定义视图函数 request 参数必须有。是一个 HttpRequest类型对象。参数名可以变换，但不要更改。</li>
+<li>配置url建立url 和视图函数之间的对应关系。</li>
+</ul>
+<p>2.url配置过程</p>
+<ul>
+<li>在项目的urls 文件中包含具体应用的urls 文件，在具体应用的urls文件中包含具体url和视图的对应关系。</li>
+<li>url配置项是定义在一个叫 urlpatterns 的列表中，其中每一个元素就是一个配置项，每一个配置项都调用urlh函数。</li>
+</ul>
+<p>3.url匹配的过程</p>
+<p>url:<a href="http://127.0.0.1:8000/aindex?a=1" target="_blank" rel="noopener">http://127.0.0.1:8000/aindex?a=1</a></p>
+<ol>
+<li>去除域名和后面的参数，剩下/aindex，再把前面的/去掉，剩下aindex</li>
+<li>拿aindex先到项目的url.py 文件中进行从上到下的匹配，匹配成功后执行后面对应的处理动作，就是把匹配成功的部分a字符去掉，然后拿剩下的部分index到应用的urls.py 文件中在进行从上到下的匹配。</li>
+<li>如果匹配成功则调用相应的视图产生内容返回给客户端。如果匹配失败则产生404错误。</li>
+</ol>
+<p>4.错误视图</p>
+<p>404：找不到页面，关闭浏览器调试模式之后，默认会显示一个标准的错误页面，如果要显示自定义的页面，则需要的templates目录下面自定义一个404.html文件。</p>
+<ol>
+<li>url没有配置</li>
+<li>url配置错误</li>
+</ol>
+<p>500：服务器端的错误。</p>
+<ol>
+<li>视图错误</li>
+</ol>
+<p>网站开发完成需要关闭调试模式，在settings.py 文件中：</p>
+<pre><code>DEBUG = False
+ALLOWED_HOST=[&quot;*&quot;]</code></pre><p>5.捕获url参数</p>
+<p>进行url匹配时，把所需要的捕获的部分设置成一个正则表达式组，这样Django框架就会自动把匹配成功后相应组的内容作为参数传递给视图函数。</p>
+<ol>
+<li>位置参数<ul>
+<li>位置参数，参数名可以随意指定<br>  urlpatterns = [<pre><code>path(&apos;index(\d+)&apos;,views.index),          //捕获url参数：位置参数</code></pre>  ]</li>
+</ul>
+</li>
+<li>关键字参数：在位置参数的基础伤给正则表达式组命名即可。<ul>
+<li>?P&lt;组名&gt;</li>
+<li>关键字参数，视图中参数名必须和正则表达式组名一致。<br>  urlpatterns = [<pre><code>path(&apos;index(?p&lt;num&gt;\d+)&apos;,views.index),          //捕获url参数：关键字参数</code></pre>  ]</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>request就是HttpRequest类型的对象</li>
+<li>request包含浏览器请求的信息</li>
+</ul>
+<p>6.普通登陆案例</p>
+<ul>
+<li>显示出登陆页面<ul>
+<li>设计url,通过浏览器访问 <a href="http://127.0.0.1:8000/login" target="_blank" rel="noopener">http://127.0.0.1:8000/login</a> 的时候显示登陆页面</li>
+<li>设计url对应的视图函数logjn</li>
+<li>编写模板文件 login.html<pre><code>&lt;form method = &apos;POST&apos; action = &apos;/login_check&apos;&gt;   //提交方式，提交到那个页面
+  用户名：&lt;input type=&apos;text&apos; name=&apos;username&apos;&gt;&lt;br&gt;
+  密码：&lt;input type=&apos;password&apos; name=&apos;password&apos;&gt;&lt;br&gt;
+  &lt;input type=&apos;submit&apos; value=&apos;登陆&apos;&gt;
+&lt;/form&gt;</code></pre><ul>
+<li>POST：提交的参数请求头。</li>
+<li>GET：提交的参数在url中。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>属性：</p>
+<ul>
+<li>path ：一个字符串，表示请求的页面的完整路径，不包含域名和部分参数。</li>
+<li>method  : 一个字符串，表示请求使用的HTTP方法，常用值包括 GET 、POST 。<ul>
+<li>在浏览器中给出地址发请求采用get方式，如超链接。</li>
+<li>在浏览器中点击表单的提交按钮发起请求，如果表单的method设置为post则为post请求。</li>
+</ul>
+</li>
+<li>encoding : 一个字符串，表示提交的数据编码方式。<ul>
+<li>如果为None则表示使用浏览器的默认设置，一般为utf-8.</li>
+<li>这个属性是可写的，可以通过修改它来访问表单数据使用的编码，接下来对属性的任何访问将使用鑫的encoding值。</li>
+</ul>
+</li>
+<li>GET ：QueryDict类型对象，类似与字典，包含get请求方式所有参数。</li>
+<li>POST：QueryDict类型对象，类似于字典，包含post请求方式的所有参数。</li>
+<li>FILES : 一个类似于字典的对象，包含所有上传文件。</li>
+<li>COOKIES ： 一个标准的Python字典，包含所有cookie，键和值都为字符串。</li>
+<li>session : 一个既可以读 又可以写的类似于字典的对象，表示当前的话，只当有Django 启用绘画的支持时才可使用，详情内容见 “状态保持”。</li>
+<li>运行服务器，在浏览器中浏览首页，可以在浏览器“开发者工具”中看到下图：</li>
+</ul>
+<p>7.Ajax</p>
+<p>(1).基本概念</p>
+<ol>
+<li>点击普通的超链接和手动输入地址。</li>
+<li>表单提交。</li>
+<li>通过ajax请求。<br>请求  –&gt; 响应</li>
+</ol>
+<p>处理函数</p>
+<ol>
+<li>返回页面 HttpResponse</li>
+<li>重定向 HttpResoonseRedirect</li>
+<li>返回Json数据 JsonResponse</li>
+</ol>
+<p>发起请求后不等结束，程序直接进行的被成为异步</p>
+<p>异步就是发起请求后，代码继续执行不会等回调函数执行，等到服务器返回j’son之后，这个回调函数才会被执行。</p>
+<p>同步ajax请求是按照代码的顺序依次执行。</p>
+<pre><code>$(function(){
+//绑定btnAax的click事件
+    $(&apos;#btnAjax&apos;).click(function(){
+    alert(1)
+    .ajax({
+      &apos;url&apos;:&apos;/ajax_handle&apos;,
+      &apos;dataType&apos;:&apos;json&apos;,
+      &apos;async&apos;:false,        //同步的ajax请求
+    }).success(function(data){
+      //进行处理
+      alter(2)
+      if (data.res ==1){
+        $(&apos;#messags&apos;).show().html(‘提示信息)
+      }
+    })
+    alert(3)
+  })
+})</code></pre><p>(2).Ajax登陆案例</p>
+<p>首先分析出访问地址时候需要携带的参数。</p>
+<p>视图函数处理完成之后，所返回的json的格式。</p>
+<ol>
+<li>显示出登陆页面<ol>
+<li>设计url，通过浏览器访问 <a href="http://127.0.0.1:8000/login_ajax" target="_blank" rel="noopener">http://127.0.0.1:8000/login_ajax</a> 时候显示登陆页面。</li>
+<li>设计url对应的视图函数 login_ajax</li>
+<li>编写模板文件 login_ajax.html<br>在里面写jquery代码发起ajax请求。</li>
+</ol>
+</li>
+<li>登陆校验功能<ol>
+<li>设计url,点击登陆页的登陆按钮发起请求<a href="http://127.0.0.1:8000/login_ajax_check时进行校验。" target="_blank" rel="noopener">http://127.0.0.1:8000/login_ajax_check时进行校验。</a></li>
+<li>设计url对应的视图函数 login_ajax_check<br>接受post提交过来的数据。<br>进行登陆校验，并返回json内容。JsonResonse<pre><code>{&apos;res&apos;:&apos;1&apos;}       //表示登陆成功
+{&apos;res&apos;:&apos;0&apos;}       //表示登陆失败</code></pre></li>
+</ol>
+</li>
+</ol>
+<p>8.状态保持</p>
+<p>Http协议是无访问状态的。下一次去访问同一个页面并不知道上一次对这个页面做了什么。</p>
+<p>(1).Cookie</p>
+<p>比如你去卖豆浆，你是浏览器，老板是服务器，你去买豆浆就是一个请求，你请求网站的时候他记不住信息 他记不住你买过豆浆他就给了你一个单子 就是cookie,这个单子交给浏览器 由你来保管下次你再来访问 服务器的时候 你就会把单子给服务器，老板就知道你买过豆浆。</p>
+<p>cookie:是有服务器生成，存储在浏览器的一小段文本信息。</p>
+<p>cooie的特点：</p>
+<ol>
+<li>以键值对方式进行存储。</li>
+<li>通过浏览器访问一个网站时，会将浏览器存储的跟网站相关的所有cookie信息发送给网站的服务器。request.COOKIES<br>（你去买烧饼，你去买烧饼，你只会把买少烧饼的单子给他 你肯定不会把卖豆浆的单子也起给他）</li>
+<li>cookie 是基于域名安全的。</li>
+<li>cookie是有过期时间的，如果不指定，默认关闭浏览器之后 cookie就会过期。</li>
+</ol>
+<p>注册Cookie</p>
+<pre><code>def set_cookie(request):
+  &apos;&apos;&apos;设置cookie信息&apos;&apos;&apos;
+  response = HttpResponse(&apos;设置一个cookie&apos;)
+  #设置一个cookie信息名字为 &apos;mum&apos;值为1
+  response.set_cookie(&apos;num&apos;,1)
+  #返回response
+  return response</code></pre><p>获取Cookie</p>
+<pre><code>def get_cookie(request):
+  &apos;&apos;&apos;获取cookie的信息&apos;&apos;&apos;
+  #取出cookie num的值
+  num = request.COOKIES[&apos;num&apos;]
+  # 返回 num
+  return HttpResponse(num)</code></pre><p>设置过期时间</p>
+<p>  格式          描述<br>  max_age=    设置秒，保存cookie的时候是多少秒过期<br>  expires=    设置时间，到达一定时间后过期       </p>
+<p>max_age设置cookie两周过期：</p>
+<pre><code>response.set_cookie(&apos;num&apos;:1,max_age = 14*24*3600)</code></pre><p>expires 设置cookie两周过期</p>
+<pre><code>from datetime import datetime,timedelta
+
+response.set_cookie(&apos;num&apos;:1,expires=datetime.now()+timedelta(days=14))</code></pre><p>HttpResponse子类对象：</p>
+<ul>
+<li>HttpResponseRedirect</li>
+<li>JsonResponse</li>
+</ul>
+<p>记住用户案例</p>
+<p>view代码：</p>
+<pre><code>def login(request):
+  &apos;&apos;&apos;显示登陆页面&apos;&apos;&apos;
+  #获取cookie username
+  if &apos;username&apos; in request.COOKIES:
+    #获取记住的用户名
+    username = request.COOKIES[&apos;username&apos;]
+  else:
+    username = &apos;&apos;              #如果没有返回为空
+  return render(request,&apos;booktest/login.html&apos;,{&apos;username&apos;:username})  
+
+
+def login_check(request):
+  &apos;&apos;&apos;登陆校验视图&apos;&apos;&apos;
+  #request.POST 保存post方式提交参数 QueryDict
+  #request.GET 保存get方式提交的参数
+  #1.获取提交的用户名和密码
+  username = request.POST.get(&apos;username&apos;)      #获取用户名   
+  password = request.POST.get(&apos;password&apos;)            #获取密码    
+  remember = request.POST.get(&apos;remember&apos;)      #获取是否保存用户密码
+  #2.进行登陆的校验
+  #实际开发：根据用户名和密码查找数据库
+  #模拟：smart 123
+  if username ==&apos;smart&apos; and password ==&apos;123&apos;:
+    #用户名密码正确跳转到首页
+    response = redirect(&apos;/index&apos;)
+    #判断是否需要记住用户名
+    if remember ==&apos;on&apos;:           #点击事件选中返回为’on‘ 未选中返回’None‘
+      #设置cookie username 过期时间为一周
+      response.set_cookie(&apos;username&apos;:username,max_age=7*24*3600)
+          return response
+  else:
+    #用户名密码错误跳转到首页
+      return redirect(&apos;/&apos;)</code></pre><p>template/login.html</p>
+<pre><code>&lt;body&gt;
+  POST：提交的参数请求头，数据安全性要去比较高的时候用post.
+  GET:提交参数在url.
+  &lt;form method = &apos;post&apos; action=&apos;logjin_check&apos;&gt;
+    用户名：&lt;input type=&apos;text&apos; name =&apos;username&apos; value=&apos;{{username}}&apos;&gt;&lt;br/&gt;
+    密码：&lt;input type=&apos;password&apos; name=&apos;pawword&apos;&gt;&lt;br/&gt;
+    &lt;input type=&apos;checkbox&apos; name=&apos;remember&apos; &gt;记住用户名&lt;br&gt;
+    &lt;input type=&apos;submit&apos; value = &apos;登录&apos;&gt;
+  &lt;/form&gt;
+&lt;/body&gt;</code></pre><p>(2).Session</p>
+<p>session 存储在服务器端。</p>
+<p>session的特点：</p>
+<ol>
+<li>session是以键值对进行存储的。</li>
+<li>session依赖于cookie。唯一的标识码保存在sessionid cookie 中。<ul>
+<li>问：所有请求者的session 都会存储在服务器中，服务器如何区分请求者和session的数据对应关系呢？</li>
+<li>答：在使用session后，会在Cookie中存储一条sessionid的数据，每次请求时浏览器都会将这个数据发给服务器，服务器接收sessionid后，会根据这个值找到这个请求者的session.</li>
+<li>结果如果想使用session，浏览器必须支持cookie，否则就无法使用session了。</li>
+<li>存储session时，键与Cookie中的sessionid相同，值是开发人员设置的键值对信息进行了base64编码，过期时间有开发人员设置。</li>
+</ul>
+</li>
+<li>session 也是有过期时间的，如果不指定，默认就会两周过期。</li>
+</ol>
+<p>对象及方法</p>
+<p>通过HttpRequest对象的session属性进行会话的读写操作。</p>
+<ol>
+<li>以键值对的格式写session.<pre><code>request.session[&apos;键&apos;] = 值</code></pre></li>
+<li>根据键获取值。<pre><code>request.session.get[&apos;键&apos;,默认值]</code></pre></li>
+<li>清除所有session,在存储中删除部分值<pre><code>request.session.clear()</code></pre></li>
+<li>清除session数据，在存储中删除session的整条数据<pre><code>request.session.flush()</code></pre></li>
+<li>删除session中指定键及值，在存储中只删除某个键及对应的值。<pre><code>del request.session[&apos;键&apos;]</code></pre></li>
+<li>设置会话超时时间，如果没有指定过期时间则两星期后过期。<pre><code>request.session.set_expiry(value)</code></pre><ul>
+<li>如果value是一个整数，会话的session_id cookie 将在value秒没有活动后过期。</li>
+<li>如果value为0，那么用户的session_id cookie 将在用户的浏览器关闭时过期。</li>
+<li>如果value为None，那么会话的session_id cookie 两周之后过期。</li>
+</ul>
+</li>
+</ol>
+<p>设置session</p>
+<p>设置session : request.session[‘username’]=’root’</p>
+<pre><code>def set_session(request):
+  &apos;&apos;&apos;设置session&apos;&apos;&apos;
+  request.session[&apos;username&apos;] = &apos;root&apos;
+  request.session[&apos;password&apos;] = &apos;123456&apos;
+  return HttpResponse(&apos;设置session&apos;)</code></pre><p>获取session</p>
+<p>获取session：request.session[‘username’]</p>
+<pre><code>def get_session(request):
+  &apos;&apos;&apos;获取session&apos;&apos;&apos;
+  username = request.session[&apos;username&apos;]
+  password = request.session[&apos;password&apos;]
+  return HttpResponse(username+&quot;:&quot;+password)     #session保存进去什么字符取出来也是什么字符</code></pre><p>清除session</p>
+<pre><code>def clear_session(request):
+  request.session.clear()        //清除部分数据通过 base64解码后看到结果是清除了 字典中的数据
+  request.session.clush()        //清除所有关于session的数据。
+  del request.session[&apos;键&apos;]     //session里面存储多个键值对，可以指定删除某一个。
+  return HttpResponse(&apos;清除成功！！&apos;)</code></pre><p>session过期时间</p>
+<pre><code>def set_session(request):
+  &apos;&apos;&apos;设置session&apos;&apos;&apos;
+  request.session[&apos;username&apos;] = &apos;root&apos;
+  request.session[&apos;password&apos;] = &apos;123456&apos;
+
+  request.session.set_expiry(5)       // 以秒为单位 设置session过期时间为5秒
+  return HttpResponse(&apos;设置session&apos;)</code></pre><p>(3).cookie和session的应用场景</p>
+<p>Cookie:</p>
+<ul>
+<li>记住用户名。</li>
+<li>保存在浏览器端。</li>
+<li>对于安全性要求不高的数据可以使用cookie进行保存。</li>
+</ul>
+<p>session:</p>
+<ul>
+<li>记住用户的登录状态</li>
+<li>保存在服务器端</li>
+<li>对于安全性要求比较高的，比如用户银行卡等信息使用session进行保存。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2016/03/25/Django视图/">http://yoursite.com/2016/03/25/Django视图/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Django/"># Django</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2016/04/26/Django其他技术/">Django其他技术</a>
+            
+            
+            <a class="next" rel="next" href="/2016/03/11/Django基础/">Django基础</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

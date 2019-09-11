@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>闭包 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">闭包</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 19, 2019&nbsp;&nbsp;21:28:36</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>闭包：装饰器的本质也是闭包<br>    闭包的本质就是函数的嵌套定义，即在函数内部再定义函数。<br>    闭包有两种不同的方式，第一种是在函数内部就‘直接调用了’；第二种是‘返回一个函数名称’<br>    第一种形式：–直接调用<br>def Maker(name):<br>num=100<br>def func1(weight,height,age):<br>weight+=1<br>height+=1<br>age+=1<br>print(name,weight,height,age)<br>func1(100,200,300) #在内部就直接调用“内部函数”<br>Maker(‘feifei’) #调用外部函数，输出 feifei 101 201 301</p>
+<pre><code>第二种形式：--返回函数的名称</code></pre><p>def Maker(name):<br>num=100<br>def func1(weight,height,age):<br>weight+=1<br>height+=1<br>age+=1<br>print(name,weight,height,age)<br>return func1 #此处不直接调用，而是返回函数名称（Python中一切皆对象）<br>maker=Maker(‘feifei’) #调用包装器<br>maker(100,200,300) #调用内部函数</p>
+<pre><code>3.闭包的作用--保存函数的状态信息，使函数的局部变量信息依然可以保存下来</code></pre><p>def Maker(step): #包装器<br>num=1<br>def fun1(): #内部函数<br>nonlocal num #nonlocal关键字的作用和前面的local是一样的，如果不使用该关键字，则不能再内部函数改变“外部变量”的值<br>num=num+step #改变外部变量的值（如果只是访问外部变量，则不需要适用nonlocal）<br>print(num)<br>return fun1</p>
+<p>#=====================================#<br>j=1<br>func2=Maker(3) #调用外部包装器<br>while(j&lt;5):<br>func2() #调用内部函数4次 输出的结果是 4、7、10、13<br>j+=1</p>
+<pre><code>4.nonlocal关键字的作用
+该关键字的作用和local的作用类似，就是让内部函数可以修改外部函数（装饰器）的局部变量值</code></pre>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/01/19/闭包/">http://yoursite.com/2019/01/19/闭包/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/07/28/hello-world/">Hello World</a>
+            
+            
+            <a class="next" rel="next" href="/2018/12/26/运维开发的持续集成/">运维开发的持续集成</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

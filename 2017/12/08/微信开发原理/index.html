@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>微信开发原理 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">微信开发原理</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 8, 2017&nbsp;&nbsp;16:35:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>一.被动回复</p>
+<p>被动回复就是用户向公众号做某种指令后，公众号反馈给用户的信息。</p>
+<p>二.主动告知</p>
+<p>公众号定期向用户推送信息。发送广告说明等。。。</p>
+<p>三.内嵌网页</p>
+<p>当用户打开微信公众号后在公众号内显示的新闻等页面被称为内嵌网页。</p>
+<p>四.明确要求</p>
+<p>公众号主要通过</p>
+<ul>
+<li>公众号消息会话</li>
+<li>公众号内网页</li>
+</ul>
+<p>来为用户提供服务的</p>
+<p>1.公众号消息会话</p>
+<p>公众号是以微信用户的一个联系人形式存在的，消息会话是公众号与用户交互的基础。</p>
+<p>2.公众号内网页</p>
+<p>许多复杂的业务场景，需要通过网页形式来提供服务。</p>
+<p>五.公众平台预定功能</p>
+<p>六.不给力，满足不了</p>
+<p>设想两个场景：</p>
+<ol>
+<li>公众号的消息自动回复想做一些职能的事情，类似于iPhone的Sire,列入分析发送”今天的北京天气”到公众号，回复粉丝信息按照特定时间特定城市给予反馈；</li>
+<li>公众号内嵌网页需要获取浏览器用户的微信头像、昵称、当时定位信息。</li>
+</ol>
+<p>以上两个场景，均无法再公众平台的预定功能设置中通过配置完成。</p>
+<p>怎么办？</p>
+<p>七.五拓展应用模型</p>
+<p>八.有拓展应用模型</p>
+<p>九.公众号接口</p>
+<p>1.公众号消息会话</p>
+<p>目前公众号内主要有这样几类消息服务的类型，分裂用于不同场景。</p>
+<p>群发消息</p>
+<p>公众号可以以一定频率（订阅号每天一次，服务号每个月四次），向用户群发消息，包括文字消息，图文消息、图片、视频、语音等。</p>
+<p>被动回复消息</p>
+<p>在用户给公众号发送消息之后，微信服务器将消息发送到开发者预先在开发者中心设置的服务器地址（开发者需要进行消息真实性验证），公众号可以再五秒内做出回复，可以回复一个消息，也可以回复命令告诉微信服务器这个消息赞不回复，被动回复消息可以设置加密（在公众平台官方的开发者中心设置，设置后，按照消息加密文档来进行处理，其他三种消息的调用时API调用而不是队请求返回，所以不需要加解密）。</p>
+<p>客服消息</p>
+<p>在用户给公众号发消息后48小时内，公众号可以给用户发送不限制数量的消息，主要用于客服场景，用户的行为会触发事件推送，某些事情推送是支持公众号据此发送客服消息的，详见微信推送消息与时间说明文档。</p>
+<p>模板消息</p>
+<p>当特定事件出发后也可以向公众推送模板消息，在需要对用户发送服务通知（如刷卡题型、服务预约成功通知等）时，在公众号可以用特定模板内容，模板向用户发送消息。</p>
+<p>2.公众号内网页</p>
+<p>对于公众号内网页，提供一下场景接口：</p>
+<p>网页授权获取用户基本信息</p>
+<p>通过该接口，可以获取到用户的基本信息</p>
+<p>微信JS-SDK</p>
+<p>是开发者在网页上通过javaScript代码使用微信原生功能的工具包，开发者可以使用它在网页上录制和播放微信语音、监听微信分享、上传手机本地图片、拍照等许多功能。</p>
+<p>3.微信开发者文档</p>
+<p>微信开发者文档地址：</p>
+<p><a href="https://mp.weixin.qq.com/wiki/home/index.html" target="_blank" rel="noopener">https://mp.weixin.qq.com/wiki/home/index.html</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2017/12/08/微信开发原理/">http://yoursite.com/2017/12/08/微信开发原理/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/微信开发/"># 微信开发</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/07/29/cookie与session的区别/">cookie与session的区别</a>
+            
+            
+            <a class="next" rel="next" href="/2017/11/16/Matplotlib/">Matplotlib</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

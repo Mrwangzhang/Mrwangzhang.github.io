@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>查看windows主机的IP | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">查看windows主机的IP</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 4, 2016&nbsp;&nbsp;22:21:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>查看win主机IP</p>
+<pre><code>ipconfig -all // windows
+ifconfig // linux </code></pre><ul>
+<li><p>服务器：没有图形化界面支持，图形化界面支持会导致系统不稳定</p>
+<ul>
+<li>window server：可视化工具<ul>
+<li>可视化：能看见</li>
+</ul>
+</li>
+<li>Unix：大部分Linux操作系统，是不包含图形化界面，稳定了<ul>
+<li>unix</li>
+<li>linux</li>
+</ul>
+</li>
+<li>不好管理：<ul>
+<li>运维：网管，管理服务器</li>
+</ul>
+</li>
+<li>linxu跑服务：<ul>
+<li>centos6、 centos7</li>
+<li>centos6: service mysql start|status|stop</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>SSH协议：加密的协议</p>
+<ul>
+<li>专门可以通过22端口远程连接目标主机</li>
+<li>直接通过远端连接进行命令行操作</li>
+</ul>
+</li>
+<li><p>FTP、SFTP</p>
+<ul>
+<li>文件传输协议 </li>
+<li>file transport portocol</li>
+</ul>
+<p>words                                       describ<br>HTTP、FTP、…，有TCP协议而来，适用于不同业务               应用层<br>TCP：定义数据传输方式                                传输层<br>IP：定义目标及客户端主机地址，常与端口结合ip:port  127.0.0.1:8000    IP层<br>网卡设备、交换传输格式等                                链路层    </p>
+</li>
+<li><p>tcp<br>传输数据 传输如果结束不了，那么连接不会断的<br>TCP / UDP<br>打电话 / 发简讯<br>流式协议 / 报文协议</p>
+</li>
+<li><p>SYN泛洪攻击：通过构建TCP SYN握手包，使目标服务器处于大量的连接等待状态，消耗资源，占用端口资源，使服务器没有办法做正事</p>
+</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2016/09/04/查看windows主机的IP/">http://yoursite.com/2016/09/04/查看windows主机的IP/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/知识点/"># 知识点</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2016/09/17/验证和授权系统概述/">验证和授权系统概述</a>
+            
+            
+            <a class="next" rel="next" href="/2016/08/25/Django的cookie实现的登录/">Django的cookie实现的登录</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

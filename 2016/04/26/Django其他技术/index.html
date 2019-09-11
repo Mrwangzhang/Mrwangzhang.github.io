@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Django其他技术 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Django其他技术</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">April 26, 2016&nbsp;&nbsp;15:27:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>一.静态文件</p>
+<p>2.使用</p>
+<p>在Django 如果要使用静态文件需要建立一个静态文件夹。</p>
+<p>二.中间件</p>
+<p>中间件函数是Django框架给我们预留的函数接口，让我们可以干预请求和应答过程。</p>
+<p>1.获取浏览器端的IP地址</p>
+<p>使用request对象META属性：</p>
+<pre><code>ip = request.META[&apos;REMOTE_ADDR&apos;]</code></pre><p>获取访问者IP</p>
+<pre><code>def index(request):
+    &apos;&apos;&apos;首页&apos;&apos;&apos;
+    #获取浏览器端的ip地址
+    user_ip request.META[&apos;REMOTE_ADDR&apos;]
+    print(user_ip)
+    return render(request, &apos;booktest/index.html&apos;)</code></pre><p>阻止某IP访问</p>
+<pre><code>EXCLUDE_IPS = [&apos;172.16.19.26&apos;]
+def index(request):
+    &apos;&apos;&apos;首页&apos;&apos;&apos;
+    #获取浏览器端的ip地址
+    user_ip request.META[&apos;REMOTE_ADDR&apos;]
+    if user_ip in EXCLUDE_IPS:
+        return HttpResponse(&apos;禁止访问&apos;)
+    print(user_ip)
+    return render(request, &apos;booktest/index.html&apos;)</code></pre><p>阻止IP访问装饰器</p>
+<pre><code>from django.conf import settings
+
+EXCLUDE_IPS = [&apos;172.16.19.26&apos;]
+def blocked_ips(view_func):
+    def wrapper(request, **view_args, **view_kwargs):
+        user_ip request.META[&apos;REMOTE_ADDR&apos;]
+        if user_ip in EXCLUDE_IPS:
+            return HttpResponse(&apos;禁止访问&apos;)
+        else:
+            return view_func(request, *views_args, **view_kwargs)
+    return wrapper</code></pre><p>2.使用中间件</p>
+<p>中间件是每个函数调用之前自动会执行的。</p>
+<ol>
+<li><p>新建一个middleware.py文件。 </p>
+<ul>
+<li>app文件下创建这个文件。</li>
+<li>名字可以改变但是一般都叫做这middleware</li>
+</ul>
+</li>
+<li><p>打开middleware.py 创建中间件函数。</p>
+<pre><code>from django.http import HttpResponse
+
+class BlockedIPSMiddleware(object):  #中间件类
+    EXCLUDE_IPS = [&apos;172.16.19.26&apos;]
+    def process_view(self,request, view_func , *view_args, **view_kwargs):   #中间件函数
+        &apos;&apos;&apos;视图函数调用之前会调用&apos;&apos;&apos;
+        user_ip request.META[&apos;REMOTE_ADDR&apos;]
+            if user_ip in BlockedIPSMiddleware.EXCLUDE_IPS:
+                return HttpResponse(&apos;禁止访问&apos;)</code></pre></li>
+<li><p>在setting 的 MIDDLEWARE 里面注册中间件类</p>
+<pre><code>MIDDLEWARE = [
+    &apos;django.middleware.security.SecurityMiddleware&apos;,
+    &apos;django.contrib.sessions.middleware.SessionMiddleware&apos;,
+    &apos;django.middleware.common.CommonMiddleware&apos;,
+    &apos;django.middleware.csrf.CsrfViewMiddleware&apos;,
+    &apos;django.contrib.auth.middleware.AuthenticationMiddleware&apos;,
+    &apos;django.contrib.messages.middleware.MessageMiddleware&apos;,
+    &apos;django.middleware.clickjacking.XFrameOptionsMiddleware&apos;,
+    &apos;booktest.middleware.BlockedIPSMiddleware&apos;,       #注册中间件类
+]</code></pre></li>
+</ol>
+<p>在类中定义中间件预留函数</p>
+<pre><code>__init__:服务器响应第一个请求的时候调用。
+process_request:是在产生request对象，进行url匹配之前调用。
+process_view：是在url匹配之后，调用视图函数之前。
+process_response：视图函数调用之后，内容返回给浏览器之前。
+process_exception:视图函数出现异常，会调用这个函数。
+如果注册多个中间件包含process_exception函数的时候，调用的顺序跟注册的顺序相反的。</code></pre><p>中间件函数执行过程、</p>
+<pre><code>class TestMiddleware(object):
+    &apos;&apos;&apos;中间件类&apos;&apos;&apos;
+    def __init__(self):
+        &apos;&apos;&apos;服务器重启之后，接收第一个请求时调用&apos;&apos;&apos;
+        print(&apos;----init------&apos;)
+
+    def process_request(self):
+        &apos;&apos;&apos;产生request对象之后，url匹配之前调用&apos;&apos;&apos;
+        print(&apos;----process_request------&apos;)
+
+    def process_view(self,qequest, view_func, *view_args, **view_kwargs):
+        &apos;&apos;&apos;url匹配之后，视图函数调用之前调用&apos;&apos;&apos;
+        print(&apos;----process_view------&apos;)
+
+    def process_response(self,qequest, response):
+        &apos;&apos;&apos;url匹配之后，视图函数调用之前调用&apos;&apos;&apos;
+        print(&apos;----process_response------&apos;)
+        return response
+
+
+class ExceptionTestMiddleware(object):
+    def process_exption(self, request ,exception):
+        &apos;&apos;&apos;视图函数发生异常时候调用&apos;&apos;&apos;
+        print(&apos;----process_exportion------&apos;)</code></pre>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2016/04/26/Django其他技术/">http://yoursite.com/2016/04/26/Django其他技术/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Django/"># Django</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2016/05/08/Django上传图片/">Django上传图片</a>
+            
+            
+            <a class="next" rel="next" href="/2016/03/25/Django视图/">Django视图</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

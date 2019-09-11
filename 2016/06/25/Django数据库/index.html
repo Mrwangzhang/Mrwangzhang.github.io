@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Django数据库 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Django数据库</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 25, 2016&nbsp;&nbsp;20:37:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>Django数据库</p>
+<p>区分一对一，多对多</p>
+<p>一对一：子表从母表中选出一条数据一一对应，母表中选出来一条就少一条，子表不可以再选择母表中已被选择的那条数据</p>
+<p>一对多：子表从母表中选出一条数据一一对应，但母表的这条数据还可以被其他子表数据选择</p>
+<p>共同点是在admin中添加数据的话，都会出现一个select选框，但只能单选，因为不论一对一还是一对多，自己都是“一”</p>
+<p>多对多总结：</p>
+<p>　　比如有多个孩子，和多种颜色、</p>
+<p>　　每个孩子可以喜欢多种颜色，一种颜色可以被多个孩子喜欢，对于双向均是可以有多个选择</p>
+<p>应用场景</p>
+<p>一对一：一般用于某张表的补充，比如用户基本信息是一张表，但并非每一个用户都需要有登录的权限，不需要记录用户名和密码，此时，合理的做法就是新建一张记录登录信息的表，与用户信息进行一对一的关联，可以方便的从子表查询母表信息或反向查询</p>
+<p>外键：有很多的应用场景，比如每个员工归属于一个部门，那么就可以让员工表的部门字段与部门表进行一对多关联，可以查询到一个员工归属于哪个部门，也可反向查出某一部门有哪些员工</p>
+<p>多对多：如很多公司，一台服务器可能会有多种用途，归属于多个产品线当中，那么服务器与产品线之间就可以做成对多对，多对多在A表添加manytomany字段或者从B表添加，效果一致</p>
+<pre><code>#_*_coding:utf-8_*_
+from django.db import models
+
+# Create your models here.
+
+class Colors(models.Model):
+    colors=models.CharField(max_length=10) #蓝色
+    def __str__(self):
+        return self.colors
+
+class Ball(models.Model):
+    color=models.OneToOneField(&quot;Colors&quot;)  #与颜色表为一对一，颜色表为母表
+    description=models.CharField(max_length=10) #描述
+    def __str__(self):
+        return self.description
+
+class Clothes(models.Model):
+    color=models.ForeignKey(&quot;Colors&quot;)   #与颜色表为外键，颜色表为母表
+    description=models.CharField(max_length=10) #描述
+    def __str__(self):
+        return self.description   
+
+class Child(models.Model):
+    name=models.CharField(max_length=10)   #姓名  
+    favor=models.ManyToManyField(&apos;Colors&apos;)    #与颜色表为多对多</code></pre><p>一对一</p>
+<p>查：</p>
+<pre><code>#子表查询母表,找到红球对应的颜色
+#写法1：
+print(models.Ball.objects.get(description=&quot;红球&quot;).color.colors)  
+#返回红，通过子表查询母表，写法：&quot;子表对象.母表表名的小写.母表字段名&quot; ；
+#通过Ball表查到description为&quot;红球&quot;，查找到对应colors
+#写法2，反向从母表入手：
+print(models.Colors.objects.get(ball__description=&quot;红球&quot;).colors) 
+#返回红，通过子表查询母表，但形式上是从母表对象自身直接获取字段，
+#写法：&quot;母表.objects.get(子表名小写__子表字段=&quot;xxx&quot;).母表字段名&quot; ；效果和上边完全一致，另一种形式
+
+
+#母表查询子表，找到红色对应的球的名字
+#写法1：
+print(models.Colors.objects.get(colors=&quot;红&quot;).ball.description)  
+#返回红球，通过母表查询子表，写法：&quot;母表对象.子表表名的小写.子表字段名&quot;；
+#找到颜色为红色的Ball的description
+
+#写法2，反向从子表入手：
+print(models.Ball.objects.get(color__colors=&quot;红&quot;).description)  
+#返回红球，通过母表查询子表，但形式上是从子表对象自身直接获取字段，
+#写法：&quot;子表.objects.get(一对一的子表字段__母表字段=&quot;xxx&quot;).子表字段&quot;；效果和上边完全一致，另一种形式</code></pre><p>增：</p>
+<pre><code>#添加一种颜色黑，并添加黑球
+color_obj=models.Colors.objects.create(colors=&quot;黑&quot;)  
+#先在母表中创建颜色，并实例化给颜色表对象
+
+models.Ball.objects.create(color=color_obj,description=&quot;黑球&quot;)  
+#更新Ball表，color字段为颜色表对象，添加description字段</code></pre><p>备注：增添数据的三种常用方式</p>
+<pre><code>#增添数据的三种写法：
+#写法1：
+color_obj=models.Colors.objects.create(colors=&quot;黑&quot;)
+models.Ball.objects.create(color=color_obj,description=&quot;黑球&quot;)
+
+#写法1补充：
+color_id=models.Colors.objects.create(colors=&quot;黑&quot;).id
+models.Ball.objects.create(color_id=color_id,description=&quot;黑球&quot;)
+
+#写法2：
+color_obj=models.Colors.objects.create(colors=&quot;黑&quot;)
+ball_obj=models.Ball(color=color_obj,description=&quot;黑球&quot;)
+ball_obj.save()
+
+#写法3(字典导入)：
+color_obj=models.Colors.objects.create(colors=&quot;黑&quot;)
+ball_dic={&apos;description&apos;:&quot;黑球&quot;}
+models.Ball.objects.create(color=color_obj,**ball_dic)</code></pre><p>改：</p>
+<pre><code>color_obj=models.Colors.objects.get(colors=&quot;黑&quot;) 
+#.get()等同于.filter().first()
+
+color_obj.colors=&quot;灰&quot;
+color_obj.save()
+
+models.Ball.objects.filter(description=&quot;黑球&quot;).update(color=color_obj,description=&quot;灰球&quot;) 
+#update(),delete()是QuerySet的方法</code></pre><p>备注：修改数据的常见方式</p>
+<pre><code>#更新一条数据
+color_obj=models.Colors.objects.get(colors=&quot;黑&quot;)
+color_obj.colors=&quot;灰&quot;
+color_obj.save()
+#更新多条数据，把满足条件的球的description都变为灰球
+
+#写法1：
+models.Ball.objects.filter(color__colors=&quot;红&quot;).update(description=&quot;灰球&quot;)
+
+#写法2：
+up_dic={&quot;description&quot;:&quot;灰球&quot;}
+models.Ball.objects.filter(id__gt=0).update(**up_dic)</code></pre><p>删：</p>
+<pre><code>models.Ball.objects.get(description=&quot;灰球&quot;).delete() 
+#对象和QuerySet都有方法delete()
+models.Colors.objects.filter(colors=&quot;灰&quot;).delete()
+
+models.Colors.objects.all().delete() #清空一张表</code></pre><p>一对多（外键）</p>
+<p>查：</p>
+<pre><code>#外键表联合查询：
+
+#外键子表查询母表,与一对一子表查询母表形式一致
+#找到红裤衩所属的颜色表中的颜色--返回:红
+
+#写法1：
+print(models.Clothes.objects.get(description=&quot;小虎哥&quot;).color.colors)  
+#返回红，通过子表查询母表，写法：&quot;子表对象.母表表名的小写.母表字段名&quot; ；
+#通过Clothes表查到description为&quot;小虎哥&quot;，查找到对应colors
+
+#写法2，反向从母表入手：
+print(models.Colors.objects.get(clothes__description=&quot;小虎哥&quot;).colors)  
+#返回红，通过子表查询母表，但形式上是从母表对象自身直接获取字段，
+#写法：&quot;母表.objects.get(子表名小写__子表字段=&quot;xxx&quot;).母表字段名&quot; ；效果和上边完全一致，另一种形式
+
+#外键母表查询子表,与一对一形式不同，因为母表为&quot;多&quot;，
+#不能像一对一一样通过.get().子表.子表字段的方式获取，但与多对多母表查询子表一致
+#找到颜色为红的所有服装--返回:[&lt;Clothes: 大美女&gt;, &lt;Clothes: 小虎哥&gt;]
+
+#写法1：
+color_obj=models.Colors.objects.get(colors=&quot;红&quot;)
+print(color_obj.clothes_set.all())  
+#注意：子表小写_set的写法,它实际上是一个QuerySet,可以用update,delete,all,filter等方法
+
+#写法2：
+print(models.Clothes.objects.filter(color=models.Colors.objects.get(colors=&quot;红&quot;)))
+
+#写法2简便写法（推荐）：
+print(models.Clothes.objects.filter(color__colors=&quot;红&quot;))  
+#写法：filter(子表外键字段__母表字段=&apos;过滤条件&apos;)
+
+#写法3：
+color_id=models.Colors.objects.get(colors=&quot;红&quot;).id  
+#通过母表获取到颜色为红的id
+print(models.Clothes.objects.filter(color_id=color_id))  
+#filter得到QuerySet,写法：filter(子表外键字段_母表主键=母表主键对象)</code></pre><p>备注：</p>
+<p>通过QuerySet的.values()方法，将QuerySet转化为ValuesQuerySet</p>
+<pre><code>print(models.Clothes.objects.filter(color=models.Colors.objects.get(colors=&quot;红&quot;)).values(&apos;color__colors&apos;,&apos;description&apos;))  
+#获取子表的description字段，和母表的colors字段，获取母表字段写法: 子表外键字段名__母表字段名--适用于values()或filter()
+#简写形式补充：
+print(models.Clothes.objects.filter(color__colors=&quot;红&quot;).values(&apos;color__colors&apos;,&apos;description&apos;))
+#返回：
+[{&apos;description&apos;: u&apos;\u7ea2\u5185\u8863&apos;, &apos;color__colors&apos;: u&apos;\u7ea2&apos;}, {&apos;description&apos;: u&apos;\u7ea2\u5185\u88e4&apos;, &apos;color__colors&apos;: u&apos;\u7ea2&apos;}]
+#如果不加values(),返回的是[&lt;Clothes: 大美女&gt;, &lt;Clothes: 小虎哥&gt;]这样一个QuerySet集合，通过values可以形成一个列表，列表中的每一个元素是一个字典，可以通过list()将ValuesQeurySet转化为列表，之后返回给templates
+
+
+#另外可通过.values_list()将QuerySet转化为ValuesListQuerySet。返回：[(u&apos;\u7ea2&apos;, u&apos;\u7ea2\u889c\u5b50&apos;), (u&apos;\u7ea2&apos;, u&apos;\u7ea2\u889c\u5b50&apos;)]
+#得到的是一个列表，列表中是多个元组，每个元组是ValuesQuerySet中字典的value，常用于从models里将数据取出后动态添加到前端模板中的select选项中。
+#通过forms.py从models取值传给前端select选项，需重启django后，select选项才能更新，可在定义form时，添加如下关键字保障动态更新select选项
+#forms.py
+from django import forms
+from test1 import models
+class ClothesForm(forms.Form):
+    color=forms.IntegerField(required=True,widget=forms.Select(),)
+    def __init__(self,*args,**kwargs):  #定义这个关键字段，当使用form时，colors表新增了颜色，前端ClothesForm的color字段的选项会自动更新
+        super(ClothesForm, self).__init__(*args,**kwargs)
+        self.fields[&apos;color&apos;].widget.choices=models.Colors.objects.all().order_by(&apos;id&apos;).values_list(&apos;id&apos;,&apos;colors&apos;)</code></pre><p>增：</p>
+<pre><code>#增添子表数据，形式与一对一一致
+#添加颜色为绿的服装：小帅哥
+#方法1：
+models.Clothes.objects.create(color=models.Colors.objects.get(colors=&quot;绿&quot;),description=&quot;小帅哥&quot;)
+#方法1补充：
+models.Clothes.objects.create(color_id=models.Colors.objects.get(colors=&quot;绿&quot;).id,description=&quot;小帅哥&quot;)
+#方法2：
+c_obj=models.Clothes(color=models.Colors.objects.get(colors=&quot;绿&quot;),description=&quot;小帅哥&quot;)
+c_obj.save()
+#方法3：字典方式录入..参考一对一</code></pre><p>改：</p>
+<pre><code>#颜色为红的服装，description都更新为大美女
+#写法1：
+models.Clothes.objects.filter(color__colors=&quot;红&quot;).update(description=&quot;大美女&quot;)
+#写法2：
+models.Clothes.objects.filter(color_id=models.Colors.objects.get(colors=&quot;红&quot;).id).update(description=&quot;大美女&quot;)
+#写法3：
+colors_obj=models.Colors.objects.get(colors=&quot;红&quot;)
+colors_obj.clothes_set.filter(id__gte=1).update(description=&quot;大美女&quot;)
+#其他写法参照一对一的修改和外键的查询</code></pre><p>删：</p>
+<pre><code>models.Clothes.objects.get(description=&quot;灰裙子&quot;).delete() 
+#对象和QuerySet都有方法delete()
+
+models.Colors.objects.filter(colors=&quot;灰&quot;).delete()</code></pre><p>多对多</p>
+<p>查：</p>
+<pre><code>#多对多子表查询母表,查找小明喜欢哪些颜色--返回:[&lt;Colors: 红&gt;, &lt;Colors: 黄&gt;, &lt;Colors: 蓝&gt;]
+#与一对多子表查询母表的形式不同，因为一对多，查询的是母表的“一”；多对多，查询的是母表的“多”
+#写法1：
+child_obj=models.Child.objects.get(name=&quot;小明&quot;)  
+
+#写法：子表对象.子表多对多字段.过滤条件(all()/filter())
+print(child_obj.favor.all())
+
+#写法2，反向从母表入手：
+print(models.Colors.objects.filter(child__name=&quot;小明&quot;)) 
+#母表对象.filter(子表表名小写__子表字段名=&quot;过滤条件&quot;)
+
+
+#多对多母表查询子表,查找有哪些人喜欢黄色--返回:[&lt;Child: 小明&gt;, &lt;Child: 丫蛋&gt;]
+#与一对多母表查询子表的形式完全一致，因为查到的都是QuerySet，一对多和多对多，都是在查询子表的“多”
+#写法1：
+color_obj=models.Colors.objects.get(colors=&quot;黄&quot;)
+print(color_obj.child_set.all())
+#写法2：
+print(models.Child.objects.filter(favor=models.Colors.objects.get(colors=&quot;黄&quot;)))
+#写法2简便写法(推荐):
+print(models.Child.objects.filter(favor__colors=&quot;黄&quot;))  
+#写法：filter(子表外键字段__母表字段=&apos;过滤条件&apos;)
+#写法3：
+color_id=models.Colors.objects.get(colors=&quot;黄&quot;).id  
+#通过母表获取到颜色为红的id
+print(models.Child.objects.filter(favor=color_id))  
+#filter得到QuerySet,写法：filter(子表外键字段=母表主键对象),此处和一对多略有不同，是子表外键字段而不是外键字段_母表主键</code></pre><p>增与改</p>
+<p>(增添子表或母表数据参照一对一的增，多对多重点在于关系表的对应关系变更)：</p>
+<pre><code>#添加子表关联关系
+#添加小虎并让他喜欢所有颜色
+
+#写法1：
+child_obj=models.Child.objects.create(name=&quot;小虎&quot;)  
+#如果是已有用户，使用.get()
+colors_obj=models.Colors.objects.all()  
+#创建颜色表的所有颜色QuerySet对象
+child_obj.favor.add(*colors_obj)  
+#添加对应关系,将小虎和所有颜色进行关联，写法：子表对象.子表多对多字段.add(*QuerySet对象)
+
+#写法2：
+child_obj=models.Child.objects.get(name=&quot;小虎&quot;)
+colors_obj=models.Colors.objects.all()
+child_obj.favor=colors_obj
+child_obj.save()
+#让小虎喜欢黄色和蓝色(2种写法和上边一致，只展示一种写法)
+child_obj=models.Child.objects.get(name=&quot;小虎&quot;)
+colors_obj=models.Colors.objects.filter(colors__in=[&quot;蓝&quot;,&quot;黄&quot;])  
+#models默认只能用这种方式得到并集，如需更复杂的过滤逻辑，需使用模块Q
+child_obj.favor.clear()  
+#清空小虎已经喜欢的颜色
+child_obj.favor.add(*colors_obj)  
+#add是追加模式，如果当前小虎已经喜欢绿色，那么执行后，小虎会额外喜欢蓝，黄
+#让小虎喜欢绿色(2种写法和上边一致，只展示一种写法)
+child_obj=models.Child.objects.get(name=&quot;小虎&quot;)
+colors_obj=models.Colors.objects.get(colors=&quot;绿&quot;)
+child_obj.favor.clear()
+child_obj.favor.add(colors_obj)  #此处没有*
+
+
+#添加母表关联关系
+#让喜欢蓝色的人里添加小虎,可以用上边的方法，一个效果，让小虎喜欢蓝色，下边介绍反向插入(从母表入手)的写法
+child_obj=models.Child.objects.get(name=&quot;小虎&quot;)
+colors_obj=models.Colors.objects.get(colors=&quot;蓝&quot;)
+colors_obj.child_set.add(child_obj)  #从colors表插入小虎，写法：母表对象.子表名小写_set.add(子表对象)。 让喜欢蓝色的child_set集合添加name=&quot;小虎&quot;
+#让所有人都喜欢蓝色
+children_obj=models.Child.objects.all()
+colors_obj=models.Colors.objects.get(colors=&quot;蓝&quot;)
+colors_obj.child_set.add(*children_obj)
+#关于_set写法，是否已经有些晕了，究竟什么时候使用_set,简单记忆，只有子表才有&quot;子表名小写_set&quot;的写法，得到的是一个QuerySet集合，后边可以接.add(),.remove(),.update(),.delete(),.clear()
+#另外备注一下，colors_obj.child_set.clear()是让所有人喜欢的颜色里去掉蓝色，colors_obj.child_set.all().delete()是删除.child_set的所有人</code></pre><p>删：删除多对多关系:</p>
+<pre><code>#删除子表与母表关联关系
+#让小虎不喜欢任何颜色
+#写法1：
+child_obj=models.Child.objects.get(name=&quot;小虎&quot;)
+colors_obj=models.Colors.objects.all()
+child_obj.favor=&apos;&apos;
+child_obj.save()
+#写法2：
+child_obj=models.Child.objects.get(name=&quot;小虎&quot;)
+colors_obj=models.Colors.objects.all()
+child_obj.favor.remove(*colors_obj)
+#写法3：
+child_obj=models.Child.objects.get(name=&quot;小虎&quot;)
+child_obj.favor.clear()
+#其他例子参照多对多的增与改案例，这里不做举例
+
+#删除母表与子表关联关系
+#让所有人不再喜欢蓝色
+#写法1：
+children_obj=models.Child.objects.all()
+colors_obj=models.Colors.objects.get(colors=&quot;蓝&quot;)
+colors_obj.child_set.remove(*children_obj)
+#写法2：
+colors_obj=models.Colors.objects.get(colors=&quot;蓝&quot;)
+colors_obj.child_set.clear()</code></pre><p>删多对多表数据：</p>
+<pre><code>#删除子表数据
+#喜欢蓝色的所有人都删掉
+colors_obj=models.Colors.objects.get(colors=&quot;蓝&quot;)
+colors_obj.child_set.all().delete()  #注意有.all()
+#删除所有child
+models.Child.objects.all().delete()</code></pre><p>删除母表数据：</p>
+<p>默认情况下，比如列中，删除’红‘色，那么子表与颜色表是一对一或者外键关系的数据会自动删除，比如红球，小虎哥，</p>
+<p>与颜色表是多对多关系的话，不会自动删除喜欢红色的人，热水去掉红色已选</p>
+<p>如果想让与母表外键关联的子表在删除外键之后依旧可以保留子表的数据，需要子表建表时加入以下字段：</p>
+<pre><code>class Clothes(models.Model):
+    color=models.ForeignKey(&quot;Colors&quot;,null=True,on_delete=models.SET_NULL))  
+    #可为空，如果外键被删后，子表数据此字段置空而不是直接删除这条数据，同理也可以SET_DEFAULT,需要此字段有默认值
+    description=models.CharField(max_length=10)  
+    #描述 </code></pre><p>choice</p>
+<pre><code>#choices相当于实现一个简化版的外键，外键的选项不能动态更新，如可选项目较少，可以采用
+#先在models添加choices字段
+class Child(models.Model):
+    sex_choice=((0,&quot;男&quot;),(1,&quot;女&quot;))
+    name=models.CharField(max_length=10)  #姓名
+    favor=models.ManyToManyField(&apos;Colors&apos;)    #与颜色表为多对多
+    sex=models.IntegerField(choices=sex_choice,default=0)
+    def __unicode__(self):
+        return self.name
+
+#在views.py中调用
+child_obj=models.Child.objects.get(name=&quot;小虎&quot;)
+print(child_obj.sex)  #返回0或1
+print(child_obj.get_sex_display())  #返回男或女</code></pre>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2016/06/25/Django数据库/">http://yoursite.com/2016/06/25/Django数据库/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Django/"># Django</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2016/07/06/Django学习/">Django学习</a>
+            
+            
+            <a class="next" rel="next" href="/2016/05/20/Django分页/">Django分页</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

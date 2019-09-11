@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Django基础 | Wanghao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Mr Wang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Mr Wang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Django基础</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 11, 2016&nbsp;&nbsp;14:05:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>Django</p>
+<p>一.软件框架</p>
+<p>一个软件框架是有期中各个软件模块组成的，每一个模块都有特定功能，模块与模块之间通过相互配合来完成软件开发。</p>
+<p>二.MVC框架</p>
+<p>MVC的核心思想：解耦 </p>
+<p>MVC框架里面的三个模块：</p>
+<ul>
+<li>M：Model模型，和数据库进行交互。</li>
+<li>V：View视图，产生HTML页面。</li>
+<li>C：Controller控制器，接收请求，进行处理，与M和V进行交互，返回应答。</li>
+</ul>
+<p>三.MVT</p>
+<ul>
+<li>M：Model模型。和MVC中的M功能相同，和数据库进行交互。</li>
+<li>V：View视图。和MVC中C功能相同，接收请求，进行处理，与M和T进行交互，返回应答。</li>
+<li>T：Template,模板。和MVC中V功能相同，产生HTML页面。</li>
+</ul>
+<p>四：虚拟环境</p>
+<p>点击查看：Django网站<a href="http://www.djangoproject.com" target="_blank" rel="noopener">www.djangoproject.com</a></p>
+<p>点击查看：Django1.8.2中文文档<a href="http://www.python.usyiyi.cn" target="_blank" rel="noopener">www.python.usyiyi.cn</a></p>
+<ul>
+<li>之前安装的Python包的命令：sudo pip3 install 包名</li>
+<li>包的安装路径： /usr/local/lib/python3.5.0/dist-packages</li>
+<li>安装同一个包不同版本，后安装的包会把原来安装的包覆盖掉。这样，如同一台机器上两个项目依赖于相同包的不同版本，则会导致一些项目运行失败。</li>
+<li>解决方案就是:虚拟环境</li>
+<li>虚拟环境就是Phthon环境的复制版本。</li>
+<li>在虚拟环境中使用的Python是复制的Python安装Python包也是安装在复制的Python中。</li>
+</ul>
+<p>安装虚拟环境的命令：</p>
+<p>安装虚拟环境所需要的包</p>
+<pre><code>sudo pip install virtialenv             //安装虚拟环境
+sudo pip install virtualenvwrapper       //安装虚拟环境拓展包</code></pre><p>在主目录下边编辑配置文件</p>
+<pre><code>编辑家目录下面的     
+vi .bashrc文件，                   //添加下面两行到末尾
+i              //写入
+export WORKON_HOME=$HOME/.virtualenvs          //￥HOME 代表家目录的路径
+source /usr/local/bin/virtualenvwrapper.sh     //创建虚拟环境要使用一些命令要想直接使用命令就得把这两句话加上
+Esc    
+：wq   //保存退出
+source.bashrc        //使其生效一下</code></pre><p>创建虚拟环境</p>
+<pre><code>makvirtualenv         //创建虚拟环境
+例子：
+mkvirtualenv -p python3 bj18_py3
+创建虚拟环境      指定版本  虚拟环境的名称</code></pre><p>退出虚拟环境</p>
+<pre><code>deactivate              //退出虚拟环境</code></pre><p>进入虚拟环境 </p>
+<pre><code>workon       //进入虚拟环境
+列:workon bj18_py3        输入命令 指定需要进入到那个虚拟环境</code></pre><p>查看机器上有多少个虚拟环境</p>
+<pre><code>输入 workon 加上 空格 和两个 Tab </code></pre><p>删除虚拟环境</p>
+<pre><code>rmvirtualenv 加上 需要删除虚拟环境的名字 </code></pre><p>查看当前虚拟环境下面安装了多少Python包</p>
+<pre><code>pip list
+pip freeze</code></pre><p>安装指定版本的包</p>
+<pre><code>pip install django==2.0.4</code></pre><p>五:项目创建</p>
+<p>命令</p>
+<pre><code>django-admin startproject 项目名</code></pre><p>1.目录结构</p>
+<pre><code>__init__.py                   //说着这个文件是一个python包
+settings.py                   //项目的配置文件
+urls.py                     //进行Url路由的配置
+wsgi.py                //web服务器和我们的Django交互的入口
+manage.py              //项目的管理文件</code></pre><p>2.创建应用</p>
+<pre><code>python manage.py startapp booktest
+python  manage.py  startapp  应用名字</code></pre><ul>
+<li><p>应用文件下面的文件作用</p>
+<pre><code>__init__.py               //说明目录是一个Python模块
+models.py                    //写和数据库相关的内容
+views.py           //接受请求、进行处理、与M和T进行交互、返回应答.定义处理函数（视图函数）
+tests.py       //写测试代码的文件
+admin.py        //网站后台管理相关的文件</code></pre><p>建立应用和项目之间的连续，需要对应用进行注册</p>
+<pre><code>项目名————&gt;settings.py   --↓
+INSTALLED_APPS = [
+    &apos;django.contrib.admin&apos;,
+    &apos;django.contrib.auth&apos;,
+    &apos;django.contrib.contenttypes&apos;,
+    &apos;django.contrib.sessions&apos;,
+    &apos;django.contrib.messages&apos;,
+    &apos;django.contrib.staticfiles&apos;,
+    &apos;booktes&apos;,         &lt;-----以应用的名字进行项目注册
+]</code></pre></li>
+<li><p>启动项目</p>
+<p>  python manage.py runserver</p>
+</li>
+</ul>
+<p>六.ORM</p>
+<p>ORM 可以通过类和对象去操作他对应的表，不需要sql语句。</p>
+<pre><code>Object:对象 - 类
+Mapping:映射
+Relations:关系，关系数据库中的表</code></pre><p>models.py            //这个文件的作用是 设计和表对应的类，模型类</p>
+<p>七.模型类</p>
+<p>1.模型类设计</p>
+<p>在应用models.py 中设计模型类。</p>
+<p>必须继承与models.Model类</p>
+<p>Models.ForeignKey可以建立两个模型之间一对多的关系，Django在成功生成表的时候，就会在表中管创建一列作为外键，建立两个表之间一对多的关系。</p>
+<p>2.模型类生成表</p>
+<ul>
+<li><p>生成迁移文件<br>命令：</p>
+<pre><code>python manage.py makemigrations</code></pre><p>迁移文件是根据模型类生成的</p>
+</li>
+<li><p>执行迁移生成表</p>
+<pre><code>python manage.py migrate</code></pre><p>migrate 里面的迁移文件不能删，因为每次迁移都有依赖关系</p>
+<pre><code>C:\Users\Administrator\Desktop\Django&gt;python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, booktest, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying booktest.0001_initial... OK
+  Applying sessions.0001_initial... OK       //这是对他来执行的迁移文件</code></pre></li>
+<li><p>Django 默认使用的数据库是 sqlite3 的数据库</p>
+<pre><code>- sqlite3 是一个关系型数据库
+- 也是一个小型数据库经常用在移动端，手机端</code></pre></li>
+</ul>
+<p>3.通过模型类操作数据表</p>
+<p>实例实行和例属性不是一种</p>
+<p>通过shell操作数据表：</p>
+<pre><code>python manage.py shell               //进入shell命令
+
+
+增加：
+from booktest.models import BookInfo        //引入数据库
+b = BookInfo()                //实例化一个数据库
+b.btitle = &apos;天龙八部&apos;           //添加名称
+from datetime import date        //导入日期模块
+b.bpub_date = date(1990.1.1)           //添加日期
+b.save()                       //保存数据
+
+查找：
+b2 = BookInfo.objects.get(id=1)       //通过ID查找
+type(b2)        //返回Booktest.models.BookInfo 类型
+b2.btitle           //返回数据
+b2.id                //返回数据
+
+修改：       //修改是建立在查找的基础伤
+b2.bpub_date = date(1990.10.10)       //直接修改玩是不会改变
+b2.save()                //需要save保存
+
+删除：
+b2.delete()                 //指定删除</code></pre><p>八.后台管理</p>
+<ul>
+<li><p>本地化</p>
+<ul>
+<li>语言和时区的本地化<pre><code>LANGUAGE_CODE=&apos;zh-hans&apos;
+TIME_ZONE=&apos;Asia/Shanghai&apos;        //这里面没有背景时间，只有亚洲上海的时间</code></pre></li>
+<li>修改setting.py文件</li>
+</ul>
+</li>
+<li><p>创建管理员<br>命令：</p>
+<pre><code>python manage.py createsuperuser</code></pre></li>
+<li><p>注册模型类</p>
+<ul>
+<li>在应用下的admin.py 中注册模型类</li>
+<li>告诉Django框架根据注册的模型类来生成对表管理页面</li>
+<li>进入admin后如果想直接显示name可以：<br>  def <strong>str</strong>(self):<pre><code>return self.name              //返回表的name字段</code></pre></li>
+</ul>
+</li>
+<li><p>自定义管理页面</p>
+<ul>
+<li><p>自定义模型管理类。模型管理类就是告诉Django再生产管理页面上显示那些内容</p>
+<pre><code>from django.contrib import admin
+from .import models
+
+#自定义模型管理类
+class BookInfoAdmin(admin.ModelAdmin):
+    &apos;&apos;&apos;图书模型管理类&apos;&apos;&apos;
+    list_display = [&apos;id&apos;,&apos;btitle&apos;,&apos;bpub_date&apos;]
+
+#第二个参数放模型管理类的类名 
+admin.site.register(models.BookInfo,BookInfoAdmin)  
+admin.site.register(models.Studeng)
+admin.site.register(models.HeroInfo)</code></pre></li>
+</ul>
+</li>
+</ul>
+<p>九.视图</p>
+<p>在Django中，通过浏览器去请求一个页面时，使用视图函数来处理这个请求的视图函数处理之后，要给浏览器返回页面内容。</p>
+<p>1.视图函数的使用(仅供参考)</p>
+<ul>
+<li><p>定义视图函数</p>
+</li>
+<li><p>视图函数定义在views.py中。</p>
+<pre><code>from django.shortcuts import render
+from django.http import HttpResponse
+#Create your views here.
+#1.定义视图函数，HttpResponse
+#2.进行url配置，建立url地址和视图的对应关系
+#http://127.0.0.1:8000/index
+
+def index(request):
+#进行处理 ,和M和T进行交互
+    return HttpResponse(&apos;hello python&apos;)</code></pre><p>视图函数必须有一个 request ，进行处理之后，需要返回一个HttpResponse的类对象，Hello python 就是返回给浏览器的内容</p>
+<ul>
+<li>进行url配置</li>
+</ul>
+<ol>
+<li>所有的url配置都定义一个叫做urlpattems的列表中</li>
+<li>每一个配置都会调用url函数第一个参数是正则表达式，第二个参数是对应的处理动作，可以写一个视图函数的名字。</li>
+<li>和url 字符串进行正则匹配，匹配成功则执行后面响应的动作。</li>
+<li>对应的动作可以是一个视图函数的名字，也可以是包含一个应用的urls.py文件<br>url 配置的目的是让建立url和视图函数的对应关系，url配置定义在urlpatterns的列表中，每一个配置项都调用url函数。<br>主路由<br> from django.contrib import admin             //主路由文件的admin管理员<br> from django.urls import path,re_path,include     //include 是命名子路由用的</li>
+</ol>
+</li>
+</ul>
+<pre><code>urlpatterns = [
+    path(&apos;admin/&apos;, admin.site.urls),
+    path(&apos;&apos;,include(&apos;booktest.urls&apos;))            //定义子路由 （应用名字+子路由文件）
+]</code></pre><p>  子路由<br>      from django.conf.urls import url<br>      from django.urls import path,re_path<br>      from .import views</p>
+<pre><code>urlpatterns = [
+    path(&apos;index/&apos;, views.index),
+    path(&apos;&apos;,views.index),
+    url(r&apos;^index/$&apos;,views.index),
+    re_path(r&apos;index&apos;,views.index),
+]</code></pre><p>  url函数有两个参数，第一个是一个正则表达式，第二个是对应的处理动作。<br>  配置url时候有两种语法格式：</p>
+<ol>
+<li>url(正则表达式，视图函数名)</li>
+<li>url(正则表达式，include(应用中的urls文件))<br>工作中配置url时，首先在项目的ulrs.py 文件中添加配置项是，并不写具体的url和视图函数之间的对应关系，而是包含具体应用的urls.py 文件，在应用的urls.py文件中写 url 和视图函数的对应关系。</li>
+</ol>
+<p>2.url匹配过程 （正则）</p>
+<p>  在项目的urls.py 文件中包含具体应用的urls.py文件，应用的urls.py文件中写url和视图函数的对应关系。</p>
+<p>十.模板</p>
+<p>模板不仅仅是一个HTML文件，</p>
+<ul>
+<li>可以在里面定义变量。</li>
+<li>还可以写类似于编程语言的语句。</li>
+</ul>
+<p>1.模板的使用</p>
+<ol>
+<li><p>创建模板文件夹   template</p>
+</li>
+<li><p>配置模板目录<br>项目的setting.py里面有一个TEMPLATES配置项<br>配置文件里面有一个常量</p>
+<pre><code>#项目目录的绝对路径，项目不论放到哪个目录下面都能通过BASE_DIR把它的绝对路径拿到
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))</code></pre><p>设置的时候我们就可以把我们的 BASE_DIR和tmplate拼接一下就可以了<br>拼接的时候要使用os.path.json(BASE_DIR,’template’)</p>
+<pre><code>TEMPLATES = [
+    {
+        &apos;BACKEND&apos;: &apos;django.template.backends.django.DjangoTemplates&apos;,
+        &apos;DIRS&apos;: [os.path.join(BASE_DIR, &apos;templates&apos;)],   //设置模板文件目录
+        &apos;APP_DIRS&apos;: True,
+        &apos;OPTIONS&apos;: {
+            &apos;context_processors&apos;: [
+                &apos;django.template.context_processors.debug&apos;,
+                &apos;django.template.context_processors.request&apos;,
+                &apos;django.contrib.auth.context_processors.auth&apos;,
+                &apos;django.contrib.messages.context_processors.messages&apos;,
+            ],
+        },
+    },
+]</code></pre></li>
+<li><p>使用模板文件      ps:老款的</p>
+<ul>
+<li><p>加载模板文件<br>去模板目录下面获取html的内容，得到一个模板对象</p>
+</li>
+<li><p>定义模板上下文<br>向模板文件传递数据</p>
+</li>
+<li><p>模板渲染<br>得到一个标准的html内容<br>  from django.template import loader,RequestContext<br>  from django.http import HttpResponse</p>
+<p>  def index2(request):</p>
+<pre><code>&apos;&apos;&apos;使用模板&apos;&apos;&apos;
+# 1.加载模板文件，模板对象
+temp = loader.get_template(&apos;booktest/index2.html&apos;)
+# 2.定义模板上下文：给模板传递数据
+context = RequestContext(request,{})
+# 3.模板渲染：产生标准的HTML内容
+res_html = temp.render(context)
+# 4.返回给浏览器
+return HttpResponse(res_html)</code></pre><p>定义一个方法提供模板复用           //其实这个函数封装是多余的 ,Django给我们封装了render直接使用就行了<br>  from django.template import loader,RequestContext<br>  from django.http import HttpResponse</p>
+<p>  def my_render(request,template_path,context_dict):</p>
+<pre><code>&apos;&apos;&apos;使用模板文件&apos;&apos;&apos;
+# 1.加载模板文件，模板对象
+temp = loader.get_template(template_path)
+# 2.定义模板上下文：给模板传递数据
+context = RequestContext(request,context_dict)
+# 3.模板渲染：产生标准的HTML内容
+res_html = temp.render(context)
+# 4.返回给浏览器
+return HttpResponse(res_html)</code></pre></li>
+</ul>
+</li>
+</ol>
+<p>2.给模板文件传递数据</p>
+<ul>
+<li><p>模板变量使用：</p>
+<pre><code>{{  模板变量名 }}</code></pre></li>
+<li><p>for循环</p>
+<pre><code>{% for i in list %}
+          {{ i }}
+      {% endfor %}</code></pre></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2016/03/11/Django基础/">http://yoursite.com/2016/03/11/Django基础/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Django/"># Django</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2016/03/25/Django视图/">Django视图</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
